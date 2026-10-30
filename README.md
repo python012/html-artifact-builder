@@ -5,9 +5,9 @@
 > **English** · [简体中文](README.zh-CN.md)
 
 An **agent skill** (per the [Agent Skills
-specification](https://agentskills.io/specification)) that generates lightweight,
-more expressive, self-contained HTML files — one `.html` you just double-click,
-no server, nothing fetched from the network.
+specification](https://agentskills.io/specification)) that generates single-file,
+self-contained HTML with React + shadcn/ui — lightweight, more expressive than
+Markdown, no server, nothing fetched from the network, just double-click to open.
 
 Two ways in:
 

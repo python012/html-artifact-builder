@@ -5,8 +5,8 @@
 > [English](README.md) · **简体中文**
 
 一个 **agent skill**（遵循 [Agent Skills 规范](https://agentskills.io/specification)）：
-生成轻量、更有表现力的单个自包含 HTML 文件 —— 双击就能打开，不用起服务器，
-也不从网上拉任何东西。
+用 React + shadcn/ui 生成轻量、更有表现力的单个自包含 HTML 文件 —— 双击就能打开，
+不用起服务器，也不从网上拉任何东西。
 
 两条路径：
 
