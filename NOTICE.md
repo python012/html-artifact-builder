@@ -25,7 +25,7 @@ Summary of changes:
 | `README.zh-CN.md` | **New.** Chinese translation of `README.md`. |
 | `NOTICE.md` | **New.** This file. |
 | `licenses/shadcn-ui-MIT.txt` | **New.** MIT text for the bundled shadcn/ui components. |
-| `samples/sample-doc.md` | **New.** Regression fixture covering every renderer feature. |
+| `samples/sample-doc.md`, `samples/sample-doc-en.md` | **New.** Regression fixtures covering every renderer feature, in Chinese and English, plus their rendered single-file output (`samples/*.html`). |
 | `ISSUES.md` | **New.** Known-issue tracker for this distribution. |
 | `.gitignore` | **New.** Ignores build output, generated bundles and maintainer notes. |
 

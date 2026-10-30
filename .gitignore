@@ -5,7 +5,6 @@ dist/
 
 # Scaffolded artifacts and single-file bundles
 bundle.html
-samples/*.html
 
 # Maintainer notes — internal, not published
 AGENTS.md

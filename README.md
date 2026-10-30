@@ -18,6 +18,9 @@ Two ways in:
 > [`web-artifacts-builder`](https://github.com/anthropics/skills), released under
 > Apache 2.0. See [NOTICE.md](NOTICE.md) for exactly what changed.
 
+**See it first:** [samples/sample-doc-en.html](samples/sample-doc-en.html) — the
+renderer's own smoke test, already rendered to a single file.
+
 ---
 
 ## Why this exists
@@ -101,10 +104,11 @@ warning — usually an asset was referenced by absolute path instead of inlined.
 ### Markdown → single HTML
 
 ```bash
-bash scripts/md-to-html.sh samples/sample-doc.md --title "Smoke test · all features"
+bash scripts/md-to-html.sh samples/sample-doc-en.md --title "Smoke test · all features"
 ```
 
-Writes `sample-doc.html` next to the source. The source is never modified.
+Writes `sample-doc-en.html` next to the source. The source is never modified.
+The committed result is [samples/sample-doc-en.html](samples/sample-doc-en.html).
 
 **Pick the title deliberately.** Markdown has no title metadata, and the `<title>`
 is what shows in the browser tab. Use a short human-readable name rather than the
@@ -112,7 +116,7 @@ raw H1, which is usually too long and often carries dates and emoji:
 
 | Avoid (raw H1) | Prefer (`--title`) |
 |---|---|
-| `Smoke test · 2026-10-30 (Fri) · every renderer feature` | `Smoke test · all features` |
+| `Smoke test · every renderer feature` | `Smoke test · all features` |
 | `Release notes · bundler moved from Parcel to Vite, and what broke` | `Release notes · Parcel to Vite` |
 
 If omitted, the title falls back to the first H1, then the filename. `<html lang>`

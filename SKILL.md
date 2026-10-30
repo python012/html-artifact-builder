@@ -115,7 +115,7 @@ which is usually too long for a tab and carries dates/emoji.
 
 | Document | Avoid (raw H1) | Prefer (`--title`) |
 |---|---|---|
-| `samples/sample-doc.md` | `冒烟样本 · 2026-10-30（周五）· 全特性覆盖` | `冒烟样本 · 全特性` |
+| `samples/sample-doc.md` | `冒烟样本 · 全特性覆盖` | `冒烟样本 · 全特性` |
 | Release notes | `Release notes · bundler moved from Parcel to Vite, and what broke` | `Release notes · Parcel to Vite` |
 
 Resolution order when `--title` is omitted: **first H1 → filename stem**.
@@ -124,9 +124,10 @@ vs `en` from CJK character density. It drives **both** `<html lang>` and the UI
 chrome (TOC label, search placeholder, copy button), so an English document does
 not get a Chinese sidebar.
 
-A ready-made regression fixture lives in `samples/sample-doc.md` — it covers
-wide tables, tagged and untagged fences, `## ` inside a fence, all five callout
-kinds, task lists and inline code. Render it and eyeball the result after any
+Ready-made regression fixtures live in `samples/`: `sample-doc.md` (Chinese)
+and `sample-doc-en.md` (English), each with its rendered `.html` next to it. They
+cover wide tables, tagged and untagged fences, `## ` inside a fence, all five
+callout kinds, task lists and inline code. Render it and eyeball the result after any
 change to the renderer:
 
 ```bash

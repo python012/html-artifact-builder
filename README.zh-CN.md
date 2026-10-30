@@ -16,6 +16,9 @@
 > 本项目是 Anthropic [`web-artifacts-builder`](https://github.com/anthropics/skills)
 > 的修改衍生版，以 Apache 2.0 发布。具体改了什么见 [NOTICE.md](NOTICE.md)。
 
+**先看效果：** [samples/sample-doc.html](samples/sample-doc.html) —— 渲染器自己的冒烟样本，
+已经渲染成单个 HTML 文件。
+
 ---
 
 ## 为什么需要它
@@ -94,14 +97,15 @@ bash ../scripts/bundle-artifact.sh            # 产出 bundle.html
 bash scripts/md-to-html.sh samples/sample-doc.md --title "冒烟样本 · 全特性"
 ```
 
-输出写在源文件旁边（`sample-doc.html`），源文件不会被修改。
+输出写在源文件旁边（`sample-doc.html`），源文件不会被修改。仓库里已带上渲染结果：
+[samples/sample-doc.html](samples/sample-doc.html)。
 
 **标题要自己挑。** Markdown 没有标题元数据，而 `<title>` 就是浏览器标签页上显示的文字。
 请用一个简短、人能读的名字，而不是原始的 H1 —— H1 通常太长，还常带日期和 emoji：
 
 | 别用（原始 H1） | 建议（`--title`） |
 |---|---|
-| `冒烟样本 · 2026-10-30（周五）· 全特性覆盖` | `冒烟样本 · 全特性` |
+| `冒烟样本 · 全特性覆盖` | `冒烟样本 · 全特性` |
 | `发布说明 · 打包器从 Parcel 换成 Vite 的经过` | `发布说明 · Parcel 换 Vite` |
 
 不传 `--title` 时，回退顺序是：首个 H1 → 文件名。`<html lang>` 可以显式指定，也按中文字符
