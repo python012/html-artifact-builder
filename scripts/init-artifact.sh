@@ -305,7 +305,24 @@ EOF
 
 # Enforce "@/" aliases in TS so editors and tsc agree with Vite.
 # Vite emits tsconfig*.json as JSONC (comments), so strip them before parsing.
-python3 - << 'PY'
+#
+# [LOCAL ADDITION 2026-10-30] `python3` cannot be assumed — see md-to-html.sh.
+# python.org's Windows installer only ships `python.exe` / `py.exe`, and the
+# Microsoft Store alias leaves a `python3.exe` stub that exits non-zero.
+PYTHON=""
+for candidate in python3 python py; do
+  if command -v "$candidate" > /dev/null 2>&1 &&
+     "$candidate" -c 'import sys; sys.exit(0 if sys.version_info[0] == 3 else 1)' > /dev/null 2>&1; then
+    PYTHON="$candidate"
+    break
+  fi
+done
+if [ -z "$PYTHON" ]; then
+  echo "❌ Error: no working Python 3 interpreter found (tried: python3, python, py)"
+  exit 1
+fi
+
+"$PYTHON" - << 'PY'
 import json, os, re
 
 def strip_jsonc(text):

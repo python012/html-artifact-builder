@@ -1,0 +1,19 @@
+# [LOCAL ADDITION 2026-10-30] Force LF in the working tree on every platform.
+# Windows Git defaults to core.autocrlf=true, which checks the bash scripts out
+# with CRLF — they then die with `bash: $'\r': command not found`, or fail
+# silently inside `set -e`. Nothing here needs CRLF, so normalise everything.
+* text=auto eol=lf
+
+*.sh  text eol=lf
+*.tsx text eol=lf
+*.ts  text eol=lf
+*.js  text eol=lf
+*.css text eol=lf
+*.md  text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+*.tar.gz binary
+*.png binary
+*.jpg binary

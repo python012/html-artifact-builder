@@ -61,6 +61,24 @@ if [ ! -d "$TEMPLATE_DIR" ]; then
   exit 1
 fi
 
+# [LOCAL ADDITION 2026-10-30] Resolve a Python 3 interpreter portably.
+# `python3` cannot be assumed: python.org's Windows installer only provides
+# `python.exe` and `py.exe`, and the Microsoft Store App Execution Alias creates
+# a `python3.exe` stub that "exists" but exits non-zero. So probe each candidate
+# by actually running it, and reject anything that is not Python 3.
+PYTHON=""
+for candidate in python3 python py; do
+  if command -v "$candidate" > /dev/null 2>&1 &&
+     "$candidate" -c 'import sys; sys.exit(0 if sys.version_info[0] == 3 else 1)' > /dev/null 2>&1; then
+    PYTHON="$candidate"
+    break
+  fi
+done
+if [ -z "$PYTHON" ]; then
+  echo "❌ Error: no working Python 3 interpreter found (tried: python3, python, py)"
+  exit 1
+fi
+
 INPUT_ABS="$(cd "$(dirname "$INPUT")" && pwd)/$(basename "$INPUT")"
 BASE="$(basename "$INPUT" .md)"
 OUT_HTML="$(dirname "$INPUT_ABS")/$BASE.html"
@@ -100,7 +118,7 @@ cat "$TEMPLATE_DIR/doc-typo.css" "$TEMPLATE_DIR/code-theme.css" >> src/index.css
 # 4. Embed the Markdown verbatim, and resolve <title>/<html lang> from content.
 #    When --title is omitted we fall back to the document's H1 — never the
 #    scaffold directory name, which is a throwaway build detail.
-TITLE_OUT=$(python3 - "$INPUT_ABS" "$TITLE" "$LANG_CODE" <<'PY'
+TITLE_OUT=$("$PYTHON" - "$INPUT_ABS" "$TITLE" "$LANG_CODE" <<'PY'
 import json, re, sys, pathlib
 
 src = pathlib.Path(sys.argv[1])

@@ -28,6 +28,23 @@ expressiveness. No server, no sharing required — just open the file.
 
 React 18 + TypeScript + Vite + Tailwind CSS 3.4.1 + shadcn/ui (43 components) + lucide-react
 
+## Platform
+
+The scripts are **bash**. Run them with `bash scripts/<name>.sh …` — never
+paste them into PowerShell or `cmd`, where `bash` may not resolve.
+
+| Host | How to run |
+|---|---|
+| macOS / Linux | Native shell |
+| Windows | **Git for Windows → Git Bash**, or WSL. Not PowerShell, not `cmd` |
+| Python | Resolved automatically: `python3` → `python` → `py` (Python 3 only) |
+
+Never hardcode `python3` in a new script: on Windows a python.org install only
+provides `python.exe` / `py.exe`, and the Microsoft Store alias leaves a
+`python3.exe` stub that exists but fails. Probe with
+`"$cmd" -c 'import sys; sys.exit(0 if sys.version_info[0] == 3 else 1)'`.
+
+
 ## Quick Start — the main path (React)
 
 Compose the page in React, then bundle it to one file. Use the Markdown renderer
@@ -85,7 +102,9 @@ before shipping the file.
 ### Step 4 — Open it
 
 ```bash
-open bundle.html
+open bundle.html        # macOS
+start bundle.html       # Windows (cmd / PowerShell)
+xdg-open bundle.html    # Linux
 ```
 
 No artifact renderer is needed — it is a plain file you can double-click.

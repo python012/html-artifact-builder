@@ -73,4 +73,11 @@ fi
 echo ""
 echo "✅ Bundle complete!"
 echo "📄 Output: bundle.html ($FILE_SIZE)"
-echo "📂 Open it directly: open bundle.html"
+# [LOCAL ADDITION 2026-10-30] `open` is macOS-only. Print the right hint for the
+# host so Windows and Linux users are not handed a command that does not exist.
+case "$(uname -s 2>/dev/null)" in
+  Darwin)               OPEN_HINT="open bundle.html" ;;
+  MINGW*|MSYS*|CYGWIN*) OPEN_HINT="start bundle.html" ;;
+  *)                    OPEN_HINT="xdg-open bundle.html" ;;
+esac
+echo "📂 Open it directly: $OPEN_HINT"

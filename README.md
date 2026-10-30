@@ -60,9 +60,18 @@ is transcribed by hand (which is where silent content loss happens).
 | **pnpm** | Installed globally by the script if missing |
 | **Network access** | Installs ~40 npm packages on first run |
 | **python3** | Used to embed content and rewrite `<title>` safely |
+| **Bash** | The scripts are bash. macOS / Linux / WSL natively; on Windows use **Git Bash** |
 
 There is no zero-dependency mode. If you need one, do not use this skill — write
 a static HTML file instead.
+
+**Windows.** Run the scripts from **Git for Windows → Git Bash**, or from WSL —
+not from PowerShell or `cmd`. Python is not assumed to be called `python3`: the
+scripts probe `python3` → `python` → `py` and use the first one that is really
+Python 3 (python.org's Windows installer ships `python.exe` and `py.exe` only,
+and the Microsoft Store alias leaves a `python3.exe` stub that fails).
+Line endings are pinned to LF by `.gitattributes`, so a default Windows checkout
+(`core.autocrlf=true`) will not mangle the scripts.
 
 ## Install
 

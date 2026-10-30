@@ -51,9 +51,16 @@ Markdown 这条链路是**逐字保真**的：`.md` 以 JSON 字符串原样嵌�
 | **Node.js 18+** | 初始化脚本会检查版本 |
 | **pnpm** | 缺失时由脚本全局安装 |
 | **网络** | 首次运行要装约 40 个 npm 包 |
-| **python3** | 用来安全地嵌入内容、改写 `<title>` |
+| **python3** | 用来安全地嵌入内容、改写 `<title>`；脚本会自动探测 `python3` → `python` → `py` |
+| **Bash** | 脚本是 bash。macOS / Linux / WSL 原生可用；Windows 请用 **Git Bash** |
 
 没有零依赖模式。如果你需要零依赖，不要用这个 skill，直接手写一个静态 HTML 文件。
+
+**Windows 用户。** 请在 **Git for Windows → Git Bash** 或 WSL 里运行脚本，不要在
+PowerShell 或 `cmd` 里运行。Python 不要求叫 `python3`：脚本会依次探测
+`python3` → `python` → `py`，取第一个真正的 Python 3（python.org 的 Windows 安装包只提供
+`python.exe` 和 `py.exe`；应用商店别名留下的 `python3.exe` 是个会失败的壳）。换行符由
+`.gitattributes` 锁定为 LF，所以 Windows 默认的 `core.autocrlf=true` 不会把脚本改成 CRLF 弄坏。
 
 ## 安装
 
