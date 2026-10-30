@@ -18,3 +18,7 @@ AGENTS.md
 *.log
 npm-debug.log*
 pnpm-debug.log*
+
+# Python bytecode (scripts/check-md-fences.py)
+__pycache__/
+*.pyc

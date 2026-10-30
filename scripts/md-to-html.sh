@@ -18,6 +18,10 @@
 #                      search placeholder, copy button). Auto-detects zh-CN vs en
 #                      from CJK character density when omitted.
 #   --project <name>   Scaffold directory name (cosmetic; never used as title).
+#   --strict-fences    Fail instead of warning when a fence is nested inside a
+#                      fence of the same marker and equal-or-greater length.
+#                      CommonMark closes the outer block early in that case, so
+#                      the rest of the document renders as body text.
 #
 # Notes:
 #  - The source .md is only ever READ. It is never modified.
@@ -29,14 +33,19 @@ INPUT=""
 TITLE=""
 LANG_CODE=""
 PROJECT=""
+STRICT_FENCES=""
 
 while [ $# -gt 0 ]; do
   case "$1" in
     --title)   TITLE="$2"; shift 2 ;;
     --lang)    LANG_CODE="$2"; shift 2 ;;
     --project) PROJECT="$2"; shift 2 ;;
+    --strict-fences) STRICT_FENCES="1"; shift ;;
     -h|--help)
-      sed -n '10,24p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'
+      # Print from "# Usage:" to the end of the leading comment block, so the
+      # range does not have to be renumbered every time an option is added.
+      awk '/^# Usage:/{f=1} f && /^#/{print; next} f{exit}' "${BASH_SOURCE[0]}" \
+        | sed 's/^# \{0,1\}//'
       exit 0 ;;
     -*) echo "❌ Unknown option: $1"; exit 1 ;;
     *)  if [ -z "$INPUT" ]; then INPUT="$1"; else echo "❌ Unexpected argument: $1"; exit 1; fi; shift ;;
@@ -83,6 +92,38 @@ INPUT_ABS="$(cd "$(dirname "$INPUT")" && pwd)/$(basename "$INPUT")"
 BASE="$(basename "$INPUT" .md)"
 OUT_HTML="$(dirname "$INPUT_ABS")/$BASE.html"
 
+PROJECT="${PROJECT:-$BASE}"
+
+echo "📄 Input  : $INPUT_ABS"
+
+# 0. Fence preflight, BEFORE anything is installed. A document whose fences
+#    nest at the same length loses content silently: CommonMark closes the outer
+#    block early, so the remainder renders as body text and any "## Heading"
+#    left behind becomes a real <h2>. That is correct per spec and identical to
+#    GitHub's output, which is exactly why the script has to say something —
+#    otherwise it prints ✅ over a mangled document. Diagnostics go to stderr
+#    from check-md-fences.py; this only decides whether to keep going.
+FENCE_SCRIPT="$SCRIPT_DIR/check-md-fences.py"
+if [ ! -f "$FENCE_SCRIPT" ]; then
+  echo "❌ Error: fence preflight missing at $FENCE_SCRIPT"
+  exit 1
+fi
+FENCE_RC=0
+if [ "$STRICT_FENCES" = "1" ]; then
+  "$PYTHON" "$FENCE_SCRIPT" --strict "$INPUT_ABS" || FENCE_RC=$?
+else
+  "$PYTHON" "$FENCE_SCRIPT" "$INPUT_ABS" || FENCE_RC=$?
+fi
+if [ "$FENCE_RC" -ne 0 ]; then
+  # Exit 1 means --strict fired and the script already said so; anything else is
+  # an unexpected preflight failure (unreadable file, usage error) and needs a
+  # line of its own so the abort is not silent.
+  if [ "$FENCE_RC" -ne 1 ]; then
+    echo "❌ Fence  : 预检失败（退出码 $FENCE_RC），已在安装依赖前中止"
+  fi
+  exit "$FENCE_RC"
+fi
+
 # Build in a throwaway temp dir, NOT in the caller's cwd and NOT inside the
 # skill directory. Scaffolding in place would litter wherever the user happened
 # to be (e.g. inside ~/.agents/skills/), leaving pnpm build artifacts behind.
@@ -96,10 +137,6 @@ cleanup() {
   fi
 }
 trap cleanup EXIT
-
-PROJECT="${PROJECT:-$BASE}"
-
-echo "📄 Input  : $INPUT_ABS"
 
 # 1. Scaffold with the normal init flow (inside the temp workspace).
 cd "$WORK_DIR"

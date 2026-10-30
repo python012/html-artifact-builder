@@ -46,7 +46,10 @@ a page by hand. `md-to-html.sh` gives that file the same treatment — still one
 - **Copy button + language chip** on every code block
 - **Callouts** derived from blockquote lead emoji: ⚠️ warning, 🔴 danger, ✅ ok, 👉 tip, 📌 note
 - `## ` inside fenced code is ignored, so an embedded README template does not
-  pollute the table of contents
+  pollute the table of contents — **as long as the fences nest by length**.
+  Nested fences of the same length close the outer block early (that is
+  CommonMark, and GitHub agrees), so the script preflights the document first
+  and warns with the exact line numbers; `--strict-fences` makes it a failure
 
 The Markdown renderer is **verbatim**: the `.md` source is embedded as a JSON
 string and parsed at runtime. The source file is never modified, and no content

@@ -163,3 +163,67 @@ next command with `pnpm: command not found`.
 
 Recommendation: option 1 — it turns a confusing failure into an instruction, and
 does not change how pnpm is invoked.
+
+---
+
+## 6. A fence nested inside a fence of the same length lost content with no warning
+
+**Status**: fixed · 2026-10-30 · was: `✅ Rendered` printed over a mangled document
+
+**Symptoms**: a document that embeds a code block by writing ` ```bash ` inside
+a ` ```markdown ` block renders wrong, with no hint that anything happened. The
+outer block ends at the inner block's *closing* fence, so everything after it
+turns into body text — `## Roadmap` became a real `<h2>`, tables became real
+tables — while the tail of the document got swallowed as code by the fence the
+author intended as the outer close.
+
+**Root cause**: not a renderer bug. Per CommonMark a closing fence may not carry
+an info string, so the inner ` ```bash ` cannot close the outer block; the first
+*bare* ``` at or above the opening length is what closes it, and that is the
+inner block's own terminator. GitHub (cmark-gfm), `marked` 18.1.2 and
+markdown-it all produce the same structure from the same input. The gap was
+purely diagnostic: `bundle-artifact.sh` verifies self-containment, but
+`md-to-html.sh` had no equivalent preflight, so a correct renderer produced a
+document the author did not mean — and the script printed `✅ Rendered`.
+
+**Reproduce**: `samples/nested-fence.md`. Before the fix:
+
+```bash
+bash scripts/md-to-html.sh samples/nested-fence.md --title T
+# ⚠️ nothing — straight to ✅ Rendered, with ## Roadmap rendered as an <h2>
+```
+
+**Fix**: `scripts/check-md-fences.py`, a dependency-free preflight invoked by
+`md-to-html.sh` before anything is installed. It walks fences with the real
+CommonMark rules (opening = indent ≤ 3 + a run of ≥ 3 `` ` ``/`~`; closing = same
+character, length ≥ the opener, **empty** info string) and reports three line
+numbers: where the block opened, the nested line that revealed the intent, and
+the line that actually closes the block. It warns and continues; a new
+`--strict-fences` flag turns it into exit 1, which happens in ~0.1 s — before
+`pnpm` — so a broken document does not cost a two-minute install.
+
+The renderer was deliberately left alone: teaching `marked` to treat an
+info-carrying line as a close would make this skill's HTML disagree with
+GitHub's, which is worse than the original problem.
+
+**What the check cannot detect** (by design — intent is not in the file):
+
+1. **Which markers were meant to nest.** The prose around a fence is not parsed,
+   so a block that is "wrong" by construction but reads fine — or a document
+   where the author genuinely wanted the early close — still warns.
+2. **An outer block written one backtick short.** If the author meant ` ```` `
+   but typed ` ``` `, the damage is only visible at the closing line; the check
+   reports that line but cannot know the intended depth. It suggests
+   `nested + 1` backticks, which is a lower bound, not a reconstruction.
+3. **Fences inside blockquotes or list items.** Only top-level fences are tracked
+   (see the header comment in the script). A nested fence inside a `> ` quote is
+   scanned as an ordinary line and will not be reported.
+4. **Indented fences.** A fence indented 4+ columns is literal/indented code, not
+   a fence, and is skipped entirely — including as a nested candidate.
+5. **Anything outside the report class.** Fences that never close, unbalanced
+   `~~~` blocks, and content that is merely mis-styled are out of scope; the
+   script only reports "opening-shaped line with an info string *inside* a block
+   of the same marker whose length is ≥ the opener".
+
+Nothing is auto-fixed: the source file stays untouched, which is the existing
+contract of `md-to-html.sh`.

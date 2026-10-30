@@ -160,7 +160,31 @@ It writes `doc.html` next to the source and **never modifies the source**. You g
 - language chips + one-click copy on every code block
 - callouts inferred from blockquote lead emoji (⚠️ warn / 🔴 danger / ✅ ok / 👉 tip / 📌 note)
 - `## `-inside-fenced-code is ignored, so embedded README templates don't
-  become phantom TOC entries
+  become phantom TOC entries — **provided the fences are written correctly**.
+  CommonMark closes a fence at the first *bare* fence of the same character and
+  at least the same length, so a ` ``` ` nested inside a ` ``` ` block closes
+  the outer block early: the rest of the document renders as body text, and any
+  `## ` left behind becomes a real heading. Write the outer block in **four**
+  backticks (` ````markdown ` … ` ```` `) and keep the inner block at three.
+
+### Fence preflight
+
+That early-close shape renders correctly per CommonMark — GitHub (cmark-gfm) and
+`marked` agree — so it is not a renderer bug and nothing in the pipeline used to
+flag it. `scripts/check-md-fences.py` runs **before any install**, reports the
+opening line, the nested line and the line that actually closes the block, and
+lets the render continue:
+
+```
+⚠️  Fence  : doc.md 第 11 行 ```markdown 内有嵌套 fence（第 16 行 ```bash）
+       →   实际闭合于第 18 行，其后的内容会被当成正文渲染
+       →   修法：外层改用 4 个反引号（````markdown … ````），或把内部 fence 缩进 4 空格
+ℹ️  渲染继续；加 --strict-fences 可让此情况直接失败
+```
+
+`--strict-fences` turns the warning into a non-zero exit — and because the
+preflight sits before `pnpm`, a broken document fails in about 0.1 s instead of
+after a two-minute install.
 
 Implementation lives in `templates/markdown-doc/`:
 `MarkdownDocument.tsx` (component), `doc-typo.css` (document typography),

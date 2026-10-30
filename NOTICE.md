@@ -19,6 +19,7 @@ Summary of changes:
 | `scripts/init-artifact.sh` | **Rewritten.** Scaffolding now uses Vite instead of the upstream Parcel + html-inline flow. Template demo images are deleted rather than left in `src/assets`. The tsconfig alias patch resolves Python portably (`python3` → `python` → `py`) instead of assuming `python3`. |
 | `scripts/bundle-artifact.sh` | **Rewritten.** Uses `vite-plugin-singlefile` and verifies self-containment (exits non-zero on root-relative refs or import-maps). The "open it" hint is chosen per platform instead of assuming macOS `open`. |
 | `scripts/md-to-html.sh` | **New.** Renders a Markdown file as a single self-contained HTML document. Resolves Python portably (`python3` → `python` → `py`). |
+| `scripts/check-md-fences.py` | **New.** Dependency-free CommonMark fence preflight, called by `md-to-html.sh` before any install: warns when a fence nests inside a fence of the same marker and equal-or-greater length (the outer block then closes early and the remainder renders as body text). |
 | `templates/markdown-doc/*` | **New.** Markdown renderer component plus document and code themes. |
 | `SKILL.md` | Rewritten to match the above; upstream description replaced. |
 | `README.md` | **New.** User-facing documentation, including the non-affiliation statement. |
@@ -26,6 +27,7 @@ Summary of changes:
 | `NOTICE.md` | **New.** This file. |
 | `licenses/shadcn-ui-MIT.txt` | **New.** MIT text for the bundled shadcn/ui components. |
 | `samples/sample-doc.md`, `samples/sample-doc-en.md` | **New.** Regression fixtures covering every renderer feature, in Chinese and English, plus their rendered single-file output (`samples/*.html`) and the README preview screenshots (`samples/preview-*.png`). |
+| `samples/nested-fence.md` | **New.** Fixture for the fence preflight: deliberately nests ` ```bash ` inside ` ```markdown `, which must produce one warning. |
 | `ISSUES.md` | **New.** Known-issue tracker for this distribution. |
 | `.gitignore` | **New.** Ignores build output, generated bundles and maintainer notes. |
 | `.gitattributes` | **New.** Pins LF line endings so the bash scripts are not converted to CRLF by a default Windows checkout (`core.autocrlf=true`), which would break them. |
