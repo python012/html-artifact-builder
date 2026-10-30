@@ -1,0 +1,21 @@
+# Node / build output
+node_modules/
+dist/
+*.local
+
+# Scaffolded artifacts and single-file bundles
+bundle.html
+samples/*.html
+
+# Maintainer notes — internal, not published
+AGENTS.md
+
+# Editor / OS
+.DS_Store
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*

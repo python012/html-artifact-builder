@@ -1,0 +1,51 @@
+/* ---------------------------------------------------------------------------
+ * MODIFIED FILE NOTICE (Apache License 2.0, Section 4(b))
+ * Newly added in this distribution; not present in the upstream
+ * anthropics/skills web-artifacts-builder. See NOTICE.md for details.
+ * ------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------
+ * Code-block theme: light GitHub style with highlight.js tokens.
+ *
+ * Why this lives in the skill: the default shadcn theme renders code on a dark
+ * background, which clashes with a light document page. These rules produce the
+ * familiar GitHub look (white block, #f6f8fa header bar, subtle border) and must
+ * be paired with highlight.js for the token colours to appear at all.
+ * ------------------------------------------------------------------------- */
+
+.codeblock {
+  @apply my-4 overflow-hidden rounded-md border border-[#d1d9e0];
+}
+.codeblock-bar {
+  @apply flex items-center justify-between border-b border-[#d1d9e0] bg-[#f6f8fa] px-3 py-1.5;
+}
+.codeblock-lang {
+  @apply text-[11px] font-semibold uppercase tracking-wide text-[#59636e];
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.codeblock-copy {
+  @apply rounded border border-transparent px-2 py-0.5 text-[11px] text-[#59636e] transition-colors;
+  @apply hover:border-[#d1d9e0] hover:bg-white hover:text-[#1f2328];
+}
+.codeblock pre {
+  @apply m-0 overflow-x-auto bg-white p-4 text-[13px] leading-[1.6];
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  tab-size: 2;
+}
+.codeblock pre code {
+  @apply bg-transparent p-0 text-[#1f2328];
+  font-size: inherit;
+}
+
+/* Token palette — GitHub Light */
+.hljs-comment, .hljs-quote { color: #6a737d; font-style: italic; }
+.hljs-keyword, .hljs-selector-tag, .hljs-literal, .hljs-type { color: #cf222e; }
+.hljs-string, .hljs-doctag, .hljs-regexp { color: #0a3069; }
+.hljs-title, .hljs-title.function_, .hljs-title.class_, .hljs-section { color: #8250df; }
+.hljs-number, .hljs-attr, .hljs-variable, .hljs-template-variable { color: #0550ae; }
+.hljs-built_in, .hljs-builtin-name, .hljs-symbol { color: #953800; }
+.hljs-name, .hljs-selector-id, .hljs-selector-class { color: #116329; }
+.hljs-meta, .hljs-meta .hljs-keyword { color: #0550ae; }
+.hljs-deletion { color: #82071e; background-color: #ffebe9; }
+.hljs-addition { color: #116329; background-color: #dafbe1; }
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: 600; }

@@ -1,0 +1,67 @@
+/* ---------------------------------------------------------------------------
+ * MODIFIED FILE NOTICE (Apache License 2.0, Section 4(b))
+ * Newly added in this distribution; not present in the upstream
+ * anthropics/skills web-artifacts-builder. See NOTICE.md for details.
+ * ------------------------------------------------------------------------- */
+/* ===========================================================================
+ * Document typography (light, GitHub-flavoured)
+ * ========================================================================= */
+.doc { @apply text-[14.5px] leading-7; }
+.doc > div > p { @apply my-3 text-foreground/90; }
+.doc > div > p > strong { @apply font-semibold text-foreground; }
+.doc a { @apply text-sky-700 underline decoration-sky-700/30 underline-offset-2 hover:decoration-sky-700; }
+
+.doc :not(pre) > code {
+  @apply rounded border border-border bg-muted px-1.5 py-0.5 text-[0.86em] font-medium text-foreground;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+}
+
+.doc h3 { @apply mt-7 mb-2 text-[17px] font-semibold tracking-tight text-foreground; }
+.doc h4 { @apply mt-6 mb-2 text-[15px] font-semibold text-foreground; }
+.doc h5 { @apply mt-5 mb-1.5 text-[14px] font-semibold text-muted-foreground; }
+
+.doc ul { @apply my-3 list-disc space-y-1 pl-6; }
+.doc ol { @apply my-3 list-decimal space-y-1 pl-6; }
+.doc li::marker { @apply text-muted-foreground; }
+.doc li > ul, .doc li > ol { @apply my-1; }
+
+.doc li input[type="checkbox"] { @apply mr-2 h-3.5 w-3.5 align-middle accent-emerald-600; }
+/* marked wraps loose task items as <li><p><input …></p></li>, so match the
+   descendant, not a direct child — otherwise the disc marker stays and each
+   item shows a bullet *and* a checkbox. -ml-2 lands the box on the bullet axis. */
+.doc li:has(input[type="checkbox"]) { @apply list-none -ml-2; }
+
+.doc table { @apply my-4 w-full border-collapse overflow-hidden rounded-lg border border-border text-[13.5px]; table-layout: auto; }
+.doc thead { @apply bg-muted/70; }
+.doc th { @apply border border-border px-3 py-2 text-left font-semibold text-foreground; }
+.doc td { @apply border border-border px-3 py-2 align-top text-foreground/90 break-words; }
+.doc tbody tr:nth-child(even) { @apply bg-muted/25; }
+.doc tbody tr:hover { @apply bg-accent/40; }
+.doc td:first-child, .doc th:first-child { @apply whitespace-nowrap; }
+.doc td code, .doc th code { @apply whitespace-nowrap; }
+
+/* ---------- Code blocks: light GitHub style ---------- */
+
+/* Callouts (light) */
+.doc blockquote { @apply my-4 rounded-r-lg border-l-4 py-3 pl-4 pr-3 text-foreground/90; }
+.doc blockquote > p { @apply my-1.5; }
+.doc blockquote > p:first-child { @apply mt-0; }
+.doc blockquote > p:last-child { @apply mb-0; }
+.callout { @apply bg-muted/40; }
+.callout-warn { @apply border-amber-500 bg-amber-50; }
+.callout-danger { @apply border-rose-500 bg-rose-50; }
+.callout-ok { @apply border-emerald-500 bg-emerald-50; }
+.callout-tip { @apply border-sky-500 bg-sky-50; }
+.callout-note { @apply border-slate-400 bg-slate-50; }
+
+/* Disclosure + rules */
+.doc details { @apply my-4 rounded-lg border border-border bg-card px-4 py-3; }
+.doc summary { @apply cursor-pointer select-none text-sm font-medium text-sky-700; }
+.doc hr { @apply my-8 border-border/60; }
+
+/* Font stack: CJK + colour emoji, so 📅/👉/📋 never render as tofu. */
+.doc, nav, header {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC",
+    "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+}
