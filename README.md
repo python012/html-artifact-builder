@@ -18,8 +18,10 @@ Two ways in:
 > [`web-artifacts-builder`](https://github.com/anthropics/skills), released under
 > Apache 2.0. See [NOTICE.md](NOTICE.md) for exactly what changed.
 
-**See it first:** [samples/sample-doc-en.html](samples/sample-doc-en.html) — the
+**See it first:** [open the rendered sample](https://python012.github.io/html-artifact-builder/samples/sample-doc-en.html) — the
 renderer's own smoke test, already rendered to a single file.
+
+![Rendered sample: sticky contents sidebar, search box, a callout and a highlighted code block](samples/preview-en.png)
 
 ---
 
@@ -108,7 +110,7 @@ bash scripts/md-to-html.sh samples/sample-doc-en.md --title "Smoke test · all f
 ```
 
 Writes `sample-doc-en.html` next to the source. The source is never modified.
-The committed result is [samples/sample-doc-en.html](samples/sample-doc-en.html).
+The committed result is [samples/sample-doc-en.html](https://python012.github.io/html-artifact-builder/samples/sample-doc-en.html).
 
 **Pick the title deliberately.** Markdown has no title metadata, and the `<title>`
 is what shows in the browser tab. Use a short human-readable name rather than the

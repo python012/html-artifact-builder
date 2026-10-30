@@ -16,8 +16,10 @@
 > 本项目是 Anthropic [`web-artifacts-builder`](https://github.com/anthropics/skills)
 > 的修改衍生版，以 Apache 2.0 发布。具体改了什么见 [NOTICE.md](NOTICE.md)。
 
-**先看效果：** [samples/sample-doc.html](samples/sample-doc.html) —— 渲染器自己的冒烟样本，
+**先看效果：** [打开渲染好的示例](https://python012.github.io/html-artifact-builder/samples/sample-doc.html) —— 渲染器自己的冒烟样本，
 已经渲染成单个 HTML 文件。
+
+![渲染效果：可收起的侧边目录、搜索框、告警卡片与语法高亮代码块](samples/preview-zh.png)
 
 ---
 
@@ -98,7 +100,7 @@ bash scripts/md-to-html.sh samples/sample-doc.md --title "冒烟样本 · 全特
 ```
 
 输出写在源文件旁边（`sample-doc.html`），源文件不会被修改。仓库里已带上渲染结果：
-[samples/sample-doc.html](samples/sample-doc.html)。
+[samples/sample-doc.html](https://python012.github.io/html-artifact-builder/samples/sample-doc.html)。
 
 **标题要自己挑。** Markdown 没有标题元数据，而 `<title>` 就是浏览器标签页上显示的文字。
 请用一个简短、人能读的名字，而不是原始的 H1 —— H1 通常太长，还常带日期和 emoji：
