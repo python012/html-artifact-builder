@@ -1,5 +1,7 @@
 # html-artifact-builder
 
+[![skills.sh](https://skills.sh/b/python012/html-artifact-builder)](https://skills.sh/python012/html-artifact-builder)
+
 > [English](README.md) · **简体中文**
 
 一个 **agent skill**（遵循 [Agent Skills 规范](https://agentskills.io/specification)）：
@@ -55,7 +57,16 @@ Markdown 这条链路是**逐字保真**的：`.md` 以 JSON 字符串原样嵌�
 
 ## 安装
 
-Skill 是从文件系统里发现的。把这个目录拷到以下任一位置：
+最省事的方式：
+
+```bash
+npx skills add python012/html-artifact-builder
+```
+
+它会把 skill 拷到项目的 `.agents/skills/` 下，并注册到你选择的 agent（Claude Code、
+OpenCode、Codex、Cursor 等约 80 个客户端）。加 `-g` 装到用户级。需要 Node 22.20+。
+
+也可以手动安装 —— skill 就是从文件系统里发现的，把这个目录拷到以下任一位置：
 
 | 工具 | 位置 |
 |---|---|

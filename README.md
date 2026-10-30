@@ -1,5 +1,7 @@
 # html-artifact-builder
 
+[![skills.sh](https://skills.sh/b/python012/html-artifact-builder)](https://skills.sh/python012/html-artifact-builder)
+
 > **English** · [简体中文](README.zh-CN.md)
 
 An **agent skill** (per the [Agent Skills
@@ -64,7 +66,18 @@ a static HTML file instead.
 
 ## Install
 
-Skills are discovered from the filesystem. Copy this directory into one of:
+The quickest way:
+
+```bash
+npx skills add python012/html-artifact-builder
+```
+
+That copies the skill into the project's `.agents/skills/` and links it for the
+agent you pick (Claude Code, OpenCode, Codex, Cursor and ~75 more). Add `-g` for
+a user-level install. Requires Node 22.20+.
+
+Or install by hand — skills are discovered from the filesystem, so copy this
+directory into one of:
 
 | Tool | Location |
 |---|---|
